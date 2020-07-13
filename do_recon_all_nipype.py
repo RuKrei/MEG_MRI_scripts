@@ -4,12 +4,12 @@ import nipype.interfaces.io as nio
 import nipype.pipeline.engine as pe
 import os
 
-do_recon_folder = '/Users/idrael/Playground/FS_Pipeline_Test'
-#do_recon_folder = os.environ['DO_RECON_FOLDER']
-#subjects_dir = os.environ[SUBJECTS_DIR]
-subjects_dir = os.path.join(do_recon_folder, 'derivatives/anat')
-#openmp = int(os.environ[OPENMP])
-openmp = 1
+#do_recon_folder = '/media/idrael/DATA/MEG/4freesurfer'
+do_recon_folder = os.environ['DO_RECON_FOLDER']
+subjects_dir = os.environ['SUBJECTS_DIR']
+#subjects_dir = os.path.join(do_recon_folder, 'derivatives/anat')
+openmp = int(os.environ['FS_OPENMP'])
+#openmp = 16
 #n_jobs = int(os.environ['N_JOBS'])
 
 subjects = os.listdir(do_recon_folder)
@@ -56,4 +56,4 @@ reconall.inputs.openmp = 5
 recon_pipe.connect(data, 'struct', reconall, 'T1_files')
 
 
-#recon_pipe.run()
+recon_pipe.run()

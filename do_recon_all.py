@@ -9,7 +9,7 @@ openmp = int(os.environ['FS_OPENMP'])
 
 # Overwrite env-variable input?
 #do_recon_folder = '/Users/idrael/Playground/FS_Pipeline_Test'
-subjects_dir = os.path.join(do_recon_folder, 'derivatives/anat')
+subjects_dir = os.environ['SUBJECTS_DIR']
 
 
 subjects = os.listdir(do_recon_folder)
