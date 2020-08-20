@@ -35,7 +35,6 @@ for subj in subject_names:
     ana_base_dir = os.path.join(data_dir, 'anat')
     for_report_dir = os.path.join(base_dir, 'derivatives', 'for_report')
     results_dir = os.path.join(base_dir, 'derivatives', 'intermediates')
-    fs_result = os.path.join(epi_subjects_dir, subj, 'mri')
 
     for f in [base_dir, ana_base_dir, data_dir, epi_subjects_dir, results_dir, for_report_dir]:
         if not os.path.exists(f):
