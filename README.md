@@ -1,2 +1,3 @@
 # beast_scripts
-Utility-Scripts for processing MRI and MEG file
+
+Contains utility-scripts for processing MRI and MEG files, some of them fresh, others outdated.
