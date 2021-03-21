@@ -90,4 +90,4 @@ echo "----------------------------"
 echo " "
 
 #  Finally, execute python command
-python /home/rudi/git/beast_scripts/do_recon_all_nipype.py -f $FOLDER -sd $SUBJ_DIR -p $N_PROC -s $SUBJECT
+python do_recon_all_nipype.py -f $FOLDER -sd $SUBJ_DIR -p $N_PROC -s $SUBJECT
