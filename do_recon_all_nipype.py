@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import glob
-#import nipype
 from nipype.interfaces.freesurfer import ReconAll
 from dicom2nifti import convert_directory
 import os
@@ -86,7 +85,8 @@ def run_recon_all(subject=None, subjects_dir=subjects_dir, openmp=1):
             reconall.inputs.subjects_dir = subjects_dir
             reconall.inputs.openmp = openmp
             reconall.inputs.flags = "-3T"
-            return f"Now running recon-all for subject {subject}."
+            print(f"Now running recon-all for subject {subject}")
+            print(f".nii-file used was: {nii_file}")
             reconall.run()
         except Exception as e:
             print(e)
@@ -104,14 +104,18 @@ def run_shell_command(command):
     subprocess.run(command, shell=True, capture_output=True, check=True)
 
 def do_hippo_seg(subject, subjects_dir=subjects_dir):
-    hippofile = os.path.join(subjects_dir, subject, "mri", "lh.hippoSfVolumes-T1.v21.txt")
-    if not os.path.isfile(hippofile):
-        print(f"Now running hippocampal segmentation for subject: {subject}")
-        hipposeg = f"segmentHA_T1.sh {subject} {subjects_dir}"
-        run_shell_command(hipposeg)
-        return f"{subject} - Hippocampal subfield segmentation completed"  
-    else:
-        print(f"Omitting hippocampal segmentation for subject {subj}, as it already exists")
+    try:
+        hippofile = os.path.join(subjects_dir, subject, "mri", "lh.hippoSfVolumes-T1.v21.txt")
+        if not os.path.isfile(hippofile):
+            assert os.path.isdir(os.path.join(subjects_dir, subject)), f"No freesufer-segmentation exists for subject {subject} in {subjects_dir}."
+            print(f"Now running hippocampal segmentation for subject: {subject}")
+            hipposeg = f"segmentHA_T1.sh {subject} {subjects_dir}"
+            run_shell_command(hipposeg)
+            return f"{subject} - Hippocampal subfield segmentation completed"  
+        else:
+            print(f"Omitting hippocampal segmentation for subject {subj}, as it already exists")
+    except Exception as e:
+        print(e)
 
 with ProcessPoolExecutor(max_workers=n_jobs) as executor:
     res = executor.map(do_hippo_seg, subject_list)
